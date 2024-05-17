@@ -66,5 +66,4 @@ module.exports = {
   resetPasswordController,
 };
 
-
 module.exports = { registerController, logoutUser };
