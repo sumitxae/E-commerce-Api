@@ -1,6 +1,6 @@
 const userModel = require("../models/user");
 const passport = require("passport");
-const localStrategy = require('passport-local').Strategy;
+const localStrategy = require("passport-local").Strategy;
 
 passport.use(new localStrategy(userModel.authenticate()));
 
@@ -17,19 +17,17 @@ const registerController = async (req, res) => {
       });
     })
     .catch((err) => {
-      res.send('err');
+      res.send(err);
     });
-};  
-
+};
 
 const logoutUser = (req, res, next) => {
   req.logout(function (err) {
     if (err) {
       return next(err);
     }
-    res.send('logged out');
+    res.send("logged out");
   });
 };
-
 
 module.exports = { registerController, logoutUser };
