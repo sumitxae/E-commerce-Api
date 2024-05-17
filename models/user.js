@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
 const plm = require("passport-local-mongoose");
 
+require('../db');
+
 const userSchema = new mongoose.Schema(
   {
     username: {
       type: String,
-      required: true,
-      unique: true,
     },
     // colony: [{
     //     type: mongoose.Schema.Types.ObjectId,
@@ -14,8 +14,6 @@ const userSchema = new mongoose.Schema(
     // }],
     email: {
       type: String,
-      required: true,
-      unique: true,
     },
   },
   { timestamps: true }
