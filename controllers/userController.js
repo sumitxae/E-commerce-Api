@@ -13,7 +13,7 @@ const registerController = async (req, res) => {
     .register(newUser, req.body.password)
     .then(() => {
       passport.authenticate("local")(req, res, () => {
-        res.send("registered");
+        res.send(req.user);
       });
     })
     .catch((err) => {

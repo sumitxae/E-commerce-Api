@@ -21,7 +21,7 @@ router.post("/login", (req, res, next) => {
       if (err) {
         return next(err);
       }
-      return res.send("Logged in successfully");
+      return res.send(req.user);
     });
   })(req, res, next);
 });
