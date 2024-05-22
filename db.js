@@ -1,3 +1,3 @@
 const mongoose = require("mongoose");
 
-mongoose.connect("mongodb://127.0.0.1:27017/colony");
+mongoose.connect("mongodb+srv://sumitxae:sumitxae@cluster0.nyy25em.mongodb.net/colony?retryWrites=true&w=majority&appName=Cluster0");
