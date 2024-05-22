@@ -1,4 +1,7 @@
-var createError = require("http-errors");
+require("dotenv").config({
+  path: "./config/.env",
+});
+require("./config/db").connectDB();
 var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
@@ -6,9 +9,12 @@ var logger = require("morgan");
 const cors = require("cors");
 const expressSession = require("express-session");
 
+const indexRouter = require('./routes/indexRouter');
 const userRouter = require("./routes/userRouter");
 const userModel = require("./models/user");
 const passport = require("passport");
+const ErrorHandler = require("./utils/errorHandler");
+const { generatedError } = require("./middlewares/error");
 
 var app = express();
 // view engine setup
@@ -36,22 +42,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use("/", userRouter);
+app.use('/', indexRouter);
+app.use('/user', userRouter);
 
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-  next(createError(404));
+app.all("*", (req, res, next) => {
+  next(new ErrorHandler(`Page Not Found ${req.url}`, 404));
 });
 
-// error handler
-app.use(function (err, req, res, next) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get("env") === "development" ? err : {};
+app.use(generatedError);
 
-  // render the error page
-  res.status(err.status || 500);
-  res.send("error");
-});
+app.listen(process.env.PORT, console.log(`Server is running on port ${process.env.PORT}`))
 
 module.exports = app;

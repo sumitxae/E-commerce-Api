@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
 const plm = require("passport-local-mongoose");
 
-require("../db");
-
 const userSchema = new mongoose.Schema(
   {
     username: {
