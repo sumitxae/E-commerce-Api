@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const plm = require("passport-local-mongoose");
+const jwt = require("jsonwebtoken");
 
 const userSchema = new mongoose.Schema(
   {
@@ -40,5 +41,11 @@ const userSchema = new mongoose.Schema(
 );
 
 userSchema.plugin(plm);
+
+userSchema.methods.getjwtToken = function () {
+  return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_TIME,
+  });
+};
 
 module.exports = mongoose.model("user", userSchema);

@@ -1,7 +1,8 @@
 const userModel = require("../models/user");
 const passport = require("passport");
 const localStrategy = require("passport-local").Strategy;
-const { catchAsyncError } = require('../middlewares/catchAsyncErrors');
+const { catchAsyncError } = require("../middlewares/catchAsyncErrors");
+const { sendToken } = require("../utils/sendToken");
 
 passport.use(new localStrategy(userModel.authenticate()));
 
@@ -14,7 +15,7 @@ const registerController = catchAsyncError((req, res, next) => {
     .register(newUser, req.body.password)
     .then(() => {
       passport.authenticate("local")(req, res, () => {
-        res.json(req.user);
+        sendToken(req.user, 200, res);
       });
     })
     .catch((err) => {
@@ -22,7 +23,7 @@ const registerController = catchAsyncError((req, res, next) => {
     });
 });
 
-const loginController =  (req, res, next) => {
+const loginController = catchAsyncError(async (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) {
       return next(err);
@@ -34,18 +35,19 @@ const loginController =  (req, res, next) => {
       if (err) {
         return next(err);
       }
-      return res.status(201).json(req.user);
+      sendToken(user, 200, res);
     });
   })(req, res, next);
-}
+});
 
-const logoutUser = (req, res, next) => {
-  req.logout(function (err) {
-    if (err) {
-      return next(err);
-    }
-    res.send("logged out");
-  });
-};
+const logoutUser = catchAsyncError(async (req, res, next) => {
+  res.clearCookie("token");
+  res.json({ message: "logged out" });
+});
 
 module.exports = { registerController, logoutUser, loginController };
+
+// req.logout(function (err) {
+//   if (err) {
+//     return next(err);
+//   }

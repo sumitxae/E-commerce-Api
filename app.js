@@ -23,9 +23,9 @@ app.set("view engine", "ejs");
 
 app.use(
   expressSession({
-    secret: "aymit",
-    resave: false,
-    saveUninitialized: false,
+    secret: process.env.EXPRESS_SESSION_SECRET,
+    resave: true,
+    saveUninitialized: true,
   })
 );
 

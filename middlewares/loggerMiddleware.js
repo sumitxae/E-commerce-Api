@@ -1,6 +1,6 @@
-export const isLoggedIn = (req, res, next) => {
+exports.isLoggedIn = (req, res, next) => {
   if (req.isAuthenticated()) {
     return next();
   }
-  res.redirect("/login");
+  return res.status(401).json({ message: "You are not logged in!", statusCode: 401});
 };
