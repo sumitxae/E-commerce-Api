@@ -9,6 +9,12 @@ exports.generatedError = (err, req, res, next) => {
         });
     }
 
+    if (err.name === "TokenExpiredError") {
+        return res.status(400).send({
+            message: "Session has been expired. Please login again!"
+        });
+    }
+
     res.status(statsuCode).send({
         message: err.message,
         name: err.name,

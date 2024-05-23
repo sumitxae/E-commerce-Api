@@ -11,6 +11,7 @@ const expressSession = require("express-session");
 
 const indexRouter = require('./routes/indexRouter');
 const userRouter = require("./routes/userRouter");
+const colonyRouter = require("./routes/colonyRouter");
 const userModel = require("./models/user");
 const passport = require("passport");
 const ErrorHandler = require("./utils/errorHandler");
@@ -44,6 +45,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use('/', indexRouter);
 app.use('/user', userRouter);
+app.use('/colony', colonyRouter);
 
 app.all("*", (req, res, next) => {
   next(new ErrorHandler(`Page Not Found ${req.url}`, 404));
