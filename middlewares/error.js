@@ -5,7 +5,8 @@ exports.generatedError = (err, req, res, next) => {
     
     if (err.name === "MongoServerError" && err.message.includes("E11000")) {
         return res.status(400).send({
-            message: "User already exists with this email!"
+            message: "User already exists with this email!",
+            error: err,
         });
     }
 
