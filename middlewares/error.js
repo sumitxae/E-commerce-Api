@@ -19,5 +19,6 @@ exports.generatedError = (err, req, res, next) => {
     res.status(statsuCode).send({
         message: err.message,
         name: err.name,
+        // stack: err.stack
     });
 };

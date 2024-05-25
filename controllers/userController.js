@@ -34,7 +34,7 @@ const forgetPasswordController = catchAsyncError(async (req, res, next) => {
   if (!user) {
     return next(new ErrorHandler("User Not Found", 404));
   }
-  const url = req.protocol + "://" + req.get("host") + "/user/reset-password/" + user._id;
+  const url = req.protocol + "://" + req.get("host") + "/user/reset-password/v2/" + user._id;
 
   sendEmail(user.email, url, next, res);
 
