@@ -5,4 +5,6 @@ const { isAuthenticated } = require("../middlewares/authoriser");
 
 router.post("/create", isAuthenticated, colonyCreator);
 
+router.get('/join', isAuthenticated, joinColony);
+
 module.exports = router;
