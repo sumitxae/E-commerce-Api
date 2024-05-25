@@ -28,16 +28,14 @@ const logoutController = catchAsyncError(async (req, res, next) => {
   res.json({ message: "logged out" });
 });
 
-
 const forgetPasswordController = catchAsyncError(async (req, res, next) => {
   const user = await userModel.findOne({ email: req.body.email });
   if (!user) {
     return next(new ErrorHandler("User Not Found", 404));
   }
-  const url = req.protocol + "://" + req.get("host") + "/user/reset-password/v2/" + user._id;
+  const url = `https://colony-zeta.vercel.app/resetpassword${user._id}`;
 
   sendEmail(user.email, url, next, res);
-
 });
 
 const resetPasswordController = catchAsyncError(async (req, res, next) => {
@@ -52,4 +50,10 @@ const resetPasswordController = catchAsyncError(async (req, res, next) => {
   });
 });
 
-module.exports = { registerController, forgetPasswordController, loginController, logoutController, resetPasswordController };
+module.exports = {
+  registerController,
+  forgetPasswordController,
+  loginController,
+  logoutController,
+  resetPasswordController,
+};
