@@ -9,11 +9,10 @@ var logger = require("morgan");
 const cors = require("cors");
 const expressSession = require("express-session");
 
-const indexRouter = require('./routes/indexRouter');
+const indexRouter = require("./routes/indexRouter");
 const userRouter = require("./routes/userRouter");
 const colonyRouter = require("./routes/colonyRouter");
 const userModel = require("./models/user");
-const passport = require("passport");
 const ErrorHandler = require("./utils/errorHandler");
 const { generatedError } = require("./middlewares/error");
 
@@ -30,12 +29,6 @@ app.use(
   })
 );
 
-app.use(passport.initialize());
-app.use(passport.session());
-
-passport.serializeUser(userModel.serializeUser());
-passport.deserializeUser(userModel.deserializeUser());
-
 app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
@@ -43,9 +36,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-app.use('/', indexRouter);
-app.use('/user', userRouter);
-app.use('/colony', colonyRouter);
+app.use("/", indexRouter);
+app.use("/user", userRouter);
+app.use("/colony", colonyRouter);
 
 app.all("*", (req, res, next) => {
   next(new ErrorHandler(`Page Not Found ${req.url}`, 404));
@@ -53,6 +46,9 @@ app.all("*", (req, res, next) => {
 
 app.use(generatedError);
 
-app.listen(process.env.PORT, console.log(`Server is running on port ${process.env.PORT}`))
+app.listen(
+  process.env.PORT,
+  console.log(`Server is running on port ${process.env.PORT}`)
+);
 
 module.exports = app;

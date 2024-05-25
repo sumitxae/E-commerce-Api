@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const plm = require("passport-local-mongoose");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
+const { catchAsyncError } = require("../middlewares/catchAsyncErrors");
 
 const tokenSchema = new mongoose.Schema({
   token: {
@@ -34,6 +36,12 @@ const userSchema = new mongoose.Schema(
       minlength: [3, "Username must be at least 3 characters long"],
       maxlength: [20, "Username must be at most 20 characters long"],
     },
+    password: {
+      type: String,
+      required: [true, "Password is required"],
+      minlength: [6, "Password must be at least 6 characters long"],
+      select: false,
+    },
     tokens: {
       type: [tokenSchema],
       default: [],
@@ -58,7 +66,19 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-userSchema.plugin(plm);
+userSchema.pre("save", function (next) {
+  catchAsyncError(async () => {
+    if (!this.isModified("password")) return next();
+    const salt = bcrypt.genSaltSync(10);
+    this.password = bcrypt.hashSync(this.password, salt);
+    next();
+  })(next);
+});
+
+userSchema.methods.comparePassword = function (enteredPassword) {
+  console.log(enteredPassword, this.password);
+  return bcrypt.compareSync(enteredPassword, this.password);
+};
 
 userSchema.methods.getjwtToken = function () {
   return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
