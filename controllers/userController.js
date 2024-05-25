@@ -2,6 +2,7 @@ const userModel = require("../models/user");
 const { catchAsyncError } = require("../middlewares/catchAsyncErrors");
 const { sendToken } = require("../utils/sendToken");
 const ErrorHandler = require("../utils/errorHandler");
+const { sendEmail } = require("../utils/mailer");
 
 const registerController = catchAsyncError(async (req, res, next) => {
   const newUser = await userModel.create(req.body);
@@ -22,14 +23,33 @@ const loginController = catchAsyncError(async (req, res, next) => {
   sendToken(user, 200, res);
 });
 
-const logoutUser = catchAsyncError(async (req, res, next) => {
+const logoutController = catchAsyncError(async (req, res, next) => {
   res.clearCookie("token");
   res.json({ message: "logged out" });
 });
 
-module.exports = { registerController, logoutUser, loginController };
 
-// req.logout(function (err) {
-//   if (err) {
-//     return next(err);
-//   }
+const forgetPasswordController = catchAsyncError(async (req, res, next) => {
+  const user = await userModel.findOne({ email: req.body.email });
+  if (!user) {
+    return next(new ErrorHandler("User Not Found", 404));
+  }
+  const url = req.protocol + "://" + req.get("host") + "/user/reset-password/" + user._id;
+
+  sendEmail(user.email, url, next, res);
+
+});
+
+const resetPasswordController = catchAsyncError(async (req, res, next) => {
+  const user = await userModel.findById(req.params.id);
+  if (!user) {
+    return next(new ErrorHandler("User Not Found", 404));
+  }
+  user.password = req.body.password;
+  await user.save();
+  res.status(200).json({
+    message: "Password Updated Successfully",
+  });
+});
+
+module.exports = { registerController, forgetPasswordController, loginController, logoutController, resetPasswordController };

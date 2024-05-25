@@ -5,8 +5,10 @@ const { isLoggedIn } = require("../middlewares/loggerMiddleware");
 
 const {
   registerController,
-  logoutUser,
-  loginController
+  logoutController,
+  loginController,
+  forgetPasswordController,
+  resetPasswordController
 } = require("../controllers/userController");
 const { isAuthenticated } = require("../middlewares/authoriser");
 
@@ -15,6 +17,10 @@ router.post("/register", registerController);
 
 router.post("/login", loginController);
 
-router.post("/logout", isAuthenticated, logoutUser);
+router.post("/logout", isAuthenticated, logoutController);
+
+router.post('/forget-password', forgetPasswordController);
+
+router.get("/reset-password/:id", resetPasswordController);
 
 module.exports = router;
