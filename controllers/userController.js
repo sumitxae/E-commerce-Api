@@ -37,6 +37,7 @@ const forgetPasswordController = catchAsyncError(async (req, res, next) => {
 
   sendEmail(user.email, url, next, res);
   user.resetPasswordFlag = !user.resetPasswordFlag;
+  await user.save();
 });
 
 const resetPasswordController = catchAsyncError(async (req, res, next) => {

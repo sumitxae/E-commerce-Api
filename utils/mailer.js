@@ -24,7 +24,7 @@ exports.sendEmail = async (email, url, next, res) => {
   transport.sendMail(mailOptions, (err, info) => {
     if (err) {
       return next(new ErroHandler(err.message, 500));
-    } console.log(info);
+    }
     return res.status(200).json({
         success: true,
         message: `Email sent to ${email}`,
