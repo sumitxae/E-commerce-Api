@@ -62,6 +62,10 @@ const userSchema = new mongoose.Schema(
         "Please enter a valid email",
       ],
     },
+    resetPasswordFlag: {
+      type: Boolean,
+      default: false, 
+    },
   },
   { timestamps: true }
 );

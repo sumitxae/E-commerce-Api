@@ -50,4 +50,4 @@ const joinColony = catchAsyncError(async (req, res, next) => {
     .json({ status: true, message: "Joined Colony", user, colony });
 });
 
-module.exports = { colonyCreator };
+module.exports = { colonyCreator, joinColony };
