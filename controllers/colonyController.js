@@ -54,4 +54,19 @@ const joinColony = catchAsyncError(async (req, res, next) => {
     .json({ status: true, message: "Joined Colony", user, colony });
 });
 
-module.exports = { colonyCreator, joinColony };
+const createDecision = catchAsyncError(async (req, res, next) => {
+  const votingPeriod = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+  const votingEndsAt = new Date(Date.now() + votingPeriod);
+
+  const decision = await new decision({
+      title: req.body.title,
+      description: req.body.description,
+      colony: req.body.colonyId,
+      creator: req.id,
+      votingEndsAt
+  });
+
+  await decision.save();
+});
+
+module.exports = { colonyCreator, joinColony, createDecision };

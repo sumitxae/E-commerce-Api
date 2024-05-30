@@ -12,7 +12,6 @@ const expressSession = require("express-session");
 const indexRouter = require("./routes/indexRouter");
 const userRouter = require("./routes/userRouter");
 const colonyRouter = require("./routes/colonyRouter");
-const userModel = require("./models/user");
 const ErrorHandler = require("./utils/errorHandler");
 const { generatedError } = require("./middlewares/error");
 
