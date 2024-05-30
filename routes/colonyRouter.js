@@ -7,6 +7,6 @@ router.post("/create", isAuthenticated, colonyCreator);
 
 router.get('/join', isAuthenticated, joinColony);
 
-router.get('/crete-decision', isAuthenticated, createDecision);
+router.post('/crete-decision', isAuthenticated, createDecision);
 
 module.exports = router;
