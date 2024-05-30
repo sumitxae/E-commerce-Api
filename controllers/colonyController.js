@@ -67,6 +67,7 @@ const createDecision = catchAsyncError(async (req, res, next) => {
   });
 
   await decision.save();
+  res.status(201).send(decision);
 });
 
 module.exports = { colonyCreator, joinColony, createDecision };
