@@ -56,7 +56,7 @@ const joinColony = catchAsyncError(async (req, res, next) => {
 });
 
 const createDecision = catchAsyncError(async (req, res, next) => {
-  const votingPeriod = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+  const votingPeriod = 1 * 60;     
   const votingEndsAt = new Date(Date.now() + votingPeriod);
 
   const decision = await decisionModel.create({
