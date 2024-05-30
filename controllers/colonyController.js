@@ -2,6 +2,7 @@ const colonyModel = require("../models/colony");
 const userModel = require("../models/user");
 const { catchAsyncError } = require("../middlewares/catchAsyncErrors");
 const ErrorHandler = require("../utils/errorHandler");
+const decisionModel = require("../models/decision");
 
 const colonyCreator = catchAsyncError(async (req, res, next) => {
   const { colonyName, nativeToken, nativeTokenSymbol } = req.body;
@@ -58,7 +59,7 @@ const createDecision = catchAsyncError(async (req, res, next) => {
   const votingPeriod = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
   const votingEndsAt = new Date(Date.now() + votingPeriod);
 
-  const decision = await new decision({
+  const decision = await decisionModel.create({
       title: req.body.title,
       description: req.body.description,
       colony: req.body.colonyId,
