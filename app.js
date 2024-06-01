@@ -14,6 +14,7 @@ const userRouter = require("./routes/userRouter");
 const colonyRouter = require("./routes/colonyRouter");
 const ErrorHandler = require("./utils/errorHandler");
 const { generatedError } = require("./middlewares/error");
+const decisionUpdater = require("./utils/updateDecisions");
 
 var app = express();
 // view engine setup
@@ -44,6 +45,7 @@ app.all("*", (req, res, next) => {
 });
 
 app.use(generatedError);
+setInterval(decisionUpdater, 60 * 1000); // Run every minute
 
 app.listen(
   process.env.PORT,

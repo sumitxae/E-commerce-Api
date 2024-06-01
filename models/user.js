@@ -3,28 +3,7 @@ const plm = require("passport-local-mongoose");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const { catchAsyncError } = require("../middlewares/catchAsyncErrors");
-
-const tokenSchema = new mongoose.Schema({
-  token: {
-    type: String,
-    unique: true,
-    required: true,
-  },
-  symbol: {
-    type: String,
-    required: true,
-  },
-  colony: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "colony",
-    required: true,
-  },
-  amount: {
-    type: Number,
-    required: true,
-    default: 0,
-  },
-});
+const tokenSchema = require('./schemas/token');
 
 const userSchema = new mongoose.Schema(
   {
@@ -51,7 +30,7 @@ const userSchema = new mongoose.Schema(
         type: mongoose.Schema.Types.ObjectId,
         ref: "colony",
         default: [],
-      },
+      }, 
     ],
     email: {
       type: String,
