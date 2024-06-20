@@ -6,19 +6,10 @@ var logger = require('morgan');
 const cors = require("cors");
 const expressSession = require("express-session");
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
 require("dotenv").config({
   path: "./config/.env",
 });
 require("./config/db").connectDB();
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
-const cors = require("cors");
-const expressSession = require("express-session");
-
 const indexRouter = require("./routes/indexRouter");
 const userRouter = require("./routes/userRouter");
 const productRouter = require("./routes/productRouter");

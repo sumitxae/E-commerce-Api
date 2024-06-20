@@ -65,5 +65,3 @@ module.exports = {
   logoutController,
   resetPasswordController,
 };
-
-module.exports = { registerController, logoutUser };
