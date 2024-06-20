@@ -23,20 +23,20 @@ exports.addProduct = catchAsyncError(async (req, res) => {
 })
 
 // Show edit product form
-exports.showEditProduct = catchAsyncError(async (req, res) => {
+exports.showEditProduct = catchAsyncError(async (req, res, next) => {
   const { id } = req.params;
 
     const product = await Product.findById(id);
     if (product) {
         res.send(product);
     } else {
-        new ErrorHandler('Product not found', 404);
+        return next(new ErrorHandler('Product not found', 404));
     }
-    new ErrorHandler('Internal Server error', 500);
+    return next(new ErrorHandler('Internal Server error', 500));
 })
 
 // Update a product
-exports.updateProduct = catchAsyncError(async (req, res) => {
+exports.updateProduct = catchAsyncError(async (req, res, next) => {
   const { id } = req.params;
   const { productName, price, productInfo, productImage } = req.body;
 
@@ -44,20 +44,20 @@ exports.updateProduct = catchAsyncError(async (req, res) => {
     if (product) {
       res.redirect('/products');
     } else {
-        new ErrorHandler('Product not found', 404);
+      return next(new ErrorHandler('Product not found', 404));
     }
-    new ErrorHandler('Internal Server error', 500);
+    return next(new ErrorHandler('Internal Server error', 500));
 });
 
 // Delete a product
-exports.deleteProduct = catchAsyncError(async (req, res) => {
+exports.deleteProduct = catchAsyncError(async (req, res, next) => {
   const { id } = req.params;
 
     const product = await Product.findByIdAndDelete(id);
     if (product) {
       res.redirect('/products');
     } else {
-        new ErrorHandler('Product not found', 404);
+       return next(new ErrorHandler('Product not found', 404));
     }
-    new ErrorHandler('Internal Server error', 500);
+    return next(new ErrorHandler('Internal Server error', 500));
 })

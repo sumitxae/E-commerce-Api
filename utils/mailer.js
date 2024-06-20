@@ -12,7 +12,7 @@ exports.sendEmail = async (email, url, next, res) => {
     },
   });
   const mailOptions = {
-    from: `Colony - Dapp`,
+    from: `Assignment <${process.env.AUTH_EMAIL}>`,
     to: email,
     subject: "Password Reset Link",
     html: `

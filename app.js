@@ -11,9 +11,10 @@ const expressSession = require("express-session");
 
 const indexRouter = require("./routes/indexRouter");
 const userRouter = require("./routes/userRouter");
+const productRouter = require("./routes/productRouter");
 const ErrorHandler = require("./utils/errorHandler");
 const { generatedError } = require("./middlewares/error");
-const decisionUpdater = require("./utils/updateDecisions");
+const paymentRouter = require("./routes/paymentRouter");
 
 var app = express();
 
@@ -37,13 +38,14 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/user", userRouter);
+app.use("/products", productRouter)
+app.use("/payments", paymentRouter);
 
 app.all("*", (req, res, next) => {
   next(new ErrorHandler(`Page Not Found ${req.url}`, 404));
 });
 
 app.use(generatedError);
-setInterval(decisionUpdater, 60 * 1000); 
 
 app.listen(
   process.env.PORT,

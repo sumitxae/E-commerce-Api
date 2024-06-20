@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-const plm = require("passport-local-mongoose");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const { catchAsyncError } = require("../middlewares/catchAsyncErrors");
@@ -31,8 +30,15 @@ const userSchema = new mongoose.Schema(
     },
     resetPasswordFlag: {
       type: Boolean,
-      default: false, 
+      default: false,
     },
+    orders: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "order",
+        default: [],
+      },
+    ],
   },
   { timestamps: true }
 );
@@ -51,9 +57,13 @@ userSchema.methods.comparePassword = function (enteredPassword) {
 };
 
 userSchema.methods.getjwtToken = function () {
-  return jwt.sign({ id: this._id, username: this.username }, process.env.JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_TIME,
-  });
+  return jwt.sign(
+    { id: this._id, username: this.username },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: process.env.JWT_EXPIRES_TIME,
+    }
+  );
 };
 
 module.exports = mongoose.model("user", userSchema);
