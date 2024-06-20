@@ -1,7 +1,5 @@
 var express = require("express");
 var router = express.Router();
-const passport = require("passport");
-const { isLoggedIn } = require("../middlewares/loggerMiddleware");
 
 const {
   registerController,
@@ -12,7 +10,6 @@ const {
 } = require("../controllers/userController");
 const { isAuthenticated } = require("../middlewares/authoriser");
 
-/* GET home page. */
 router.post("/register", registerController);
 
 router.post("/login", loginController);

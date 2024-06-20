@@ -1,5 +1,3 @@
-const { stack } = require("../app");
-
 exports.generatedError = (err, req, res, next) => {
   const statsuCode = err.statusCode || 500;
 

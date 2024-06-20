@@ -11,13 +11,12 @@ const expressSession = require("express-session");
 
 const indexRouter = require("./routes/indexRouter");
 const userRouter = require("./routes/userRouter");
-const colonyRouter = require("./routes/colonyRouter");
 const ErrorHandler = require("./utils/errorHandler");
 const { generatedError } = require("./middlewares/error");
 const decisionUpdater = require("./utils/updateDecisions");
 
 var app = express();
-// view engine setup
+
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
@@ -38,14 +37,13 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/user", userRouter);
-app.use("/colony", colonyRouter);
 
 app.all("*", (req, res, next) => {
   next(new ErrorHandler(`Page Not Found ${req.url}`, 404));
 });
 
 app.use(generatedError);
-setInterval(decisionUpdater, 60 * 1000); // Run every minute
+setInterval(decisionUpdater, 60 * 1000); 
 
 app.listen(
   process.env.PORT,
