@@ -3,7 +3,11 @@ exports.sendToken = (user, statusCode, res) => {
 
   const options = {
     expires: new Date(
-      Date.now() + process.env.JWT_COOKIE_EXPIRES_TIME * 24 * 60 * 60 * 1000
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_TIME * 24 * 10 // 10 days
+    ),
+    secure: true,
+    maxAge: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_TIME * 24 * 10 // 10 days
     ),
   };
 

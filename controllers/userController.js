@@ -18,7 +18,7 @@ const loginController = catchAsyncError(async (req, res, next) => {
   }
   const isPasswordMatch = await user.comparePassword(req.body.password);
   if (!isPasswordMatch) {
-    return next(new ErrorHandler("Invalid email or password", 401));
+    return next(new ErrorHandler("Invalid Username or password", 401));
   }
   sendToken(user, 200, res);
 });
