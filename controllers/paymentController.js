@@ -57,12 +57,10 @@ exports.verifyPayment = catchAsyncError(async (req, res, next) => {
 
   const order = await orderModel.findOne({razorpay_order_id});
 
-  console.log(order)
   if (validatePaymentSignature(req.body)) {
     order.razorpay_payment_id = razorpay_payment_id;
     order.razorpay_signature = razorpay_signature;
     order.status = "paid";
-    console.log(order)
     await order.save();
     res.redirect(`http://localhost:5173/payment-success/${razorpay_payment_id}`);
   } else {
