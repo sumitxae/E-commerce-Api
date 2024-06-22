@@ -32,7 +32,7 @@ app.use(
     saveUninitialized: true,
   })
 );
-
+app.use('trust proxy', 1);
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
