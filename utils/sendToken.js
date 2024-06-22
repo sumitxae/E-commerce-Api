@@ -9,7 +9,8 @@ exports.sendToken = (user, statusCode, res) => {
     maxAge: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_TIME * 24 * 10 // 10 days
     ),
-    same_site: 'None',
+    same_site: "None",
+    httpOnly: false,
   };
 
   res.status(statusCode).cookie("token", token, options).json({
