@@ -1,6 +1,7 @@
 var express = require("express");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+const path = require('path');
 const cors = require("cors");
 const expressSession = require("express-session");
 
@@ -16,6 +17,9 @@ const { generatedError } = require("./middlewares/error");
 const paymentRouter = require("./routes/paymentRouter");
 
 var app = express();
+
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'ejs');
 
 app.use(cors({
   origin: [
