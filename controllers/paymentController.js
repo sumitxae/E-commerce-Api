@@ -62,7 +62,7 @@ exports.verifyPayment = catchAsyncError(async (req, res, next) => {
     order.razorpay_signature = razorpay_signature;
     order.status = "paid";
     await order.save();
-    res.redirect(`https://e-commerce-k2r4.onrender.com/`,{status: true, payment_id: razorpay_payment_id});
+    res.redirect(`https://e-commerce-k2r4.onrender.com/`);
   } else {
     return next(new ErrorHandler("Invalid signature! Please Try Again", 400));
   }
