@@ -28,12 +28,8 @@ exports.createOrder = catchAsyncError(async (req, res, next) => {
     currency: "INR",
     receipt,
   };
-  let order;
-  try {
-    order = await razorpayInstance.orders.create(options);
-  } catch (error) {
-    console.log(error)
-  }
+  let order = await razorpayInstance.orders.create(options);
+
   const user = await userModel.findById(req.id);
 
   if (!order) {
