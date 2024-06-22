@@ -18,7 +18,10 @@ const paymentRouter = require("./routes/paymentRouter");
 var app = express();
 
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: [
+    'http://localhost:5173',
+    'https://e-commerce-k2r4.onrender.com'
+  ],
   credentials: true,
 }));
 
